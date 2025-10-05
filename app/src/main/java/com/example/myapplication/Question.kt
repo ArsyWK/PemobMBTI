@@ -1,14 +1,15 @@
 package com.example.myapplication
+
 import android.content.Intent
-import android.widget.ImageButton
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
-import android.util.Log
-
 
 class QuestionnaireActivity : AppCompatActivity() {
     private val questions = listOf(
@@ -26,8 +27,8 @@ class QuestionnaireActivity : AppCompatActivity() {
         "Saat berlibur, Anda lebih menikmati",
         "Cara Anda memproses pikiran paling baik adalah dengan",
         "Anda melihat diri Anda sebagai orang yang lebih"
-
     )
+
     private val Aanswer = listOf(
         "Berkenalan dan berbicara dengan banyak orang, bahkan yang tidak Anda kenal.",
         "Pengalaman langsung dan fakta yang terbukti.",
@@ -43,11 +44,8 @@ class QuestionnaireActivity : AppCompatActivity() {
         "Perjalanan dengan rencana dan jadwal yang sudah pasti.",
         "Mengucapkannya atau mendiskusikannya dengan orang lain.",
         "Realistis dan membumi."
+    )
 
-
-
-
-        )
     private val Banswer = listOf(
         "Menghabiskan lebih banyak waktu dengan orang-orang yang sudah Anda kenal baik.",
         "Inspirasi, firasat, dan kemungkinan-kemungkinan tersembunyi.",
@@ -63,215 +61,146 @@ class QuestionnaireActivity : AppCompatActivity() {
         "Perjalanan yang spontan tanpa rencana yang kaku.",
         "Merenungkannya secara mendalam di dalam pikiran Anda sendiri.",
         "Imajinatif dan visioner."
-        )
+    )
 
-    var currentIndex = 0
+    private var currentIndex = 0
+    private var BoolAns = true
+    private var E = 0 // Extroversion
+    private var I = 0 // Introversion
+    private var S = 0 // Sensing
+    private var N = 0 // Intuition
+    private var T = 0 // Thinking
+    private var F = 0 // Feeling
+    private var J = 0 // Judging
+    private var P = 0 // Perceiving
 
-    var Dimention1 = "E"//Extroversion vs Introversion (1,5,9,13)
-    var Dimention2 = "S"//Sensing vs Intuition (2,6,10,14)
-    var Dimention3= "T"// Thinking vs Feeling (3,7,11,15)
-    var Dimention4 = "P"//Judging vs Perceiving (4,8,12)
-
-    var E=0
-    var Itro =0
-    var S = 0
-    var It = 0
-    var T = 0
-    var F = 0
-    var J=0
-    var P=0
-    var DictPersona = mutableMapOf<String, String>()
-    companion object {
-        var ResultPersonality: String = ""
-    }
-
-    var BoolAns = true //true is A false B
-
-    var arrA = Array<String?>(4) { null }
+    private var DictPersona = mutableMapOf<String, String>()
+    private var ResultPersonality: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questionnaire)
 
-
-        DictPersona["INTJ"] = "Sang Arsitek Pemikir strategis yang imajinatif dan memiliki rencana untuk segala hal."
-        DictPersona["INTP"] = "Sang Ahli Logika Penemu inovatif dengan kehausan yang tak terpuaskan akan "
-        DictPersona["ENTJ"] = "Sang Komandan Pemimpin yang tegas dan berani, selalu menemukan atau menciptakan jalan."
-        DictPersona["ENTP"] = "Sang Pendebat Pemikir yang cerdas dan penasaran, tidak bisa menolak tantangan intelektual."
-
-        DictPersona["INFJ"] = "Sang Advokat Idealis yang pendiam, menginspirasi, dan tak kenal lelah."
-        DictPersona["INFP"] = "Pribadi puitis dan baik hati, selalu ingin membantu orang lain."
-        DictPersona["ENFJ"] = "Pemimpin yang karismatik dan mampu menginspirasi pendengarnya."
-        DictPersona["ENFP"] = "Sang Juru Kampanye Jiwa bebas yang antusias, kreatif, dan mudah bergaul.)"
-
-        DictPersona["ISTJ"] = "Sang Ahli Logistik Individu yang praktis dan mengandalkan fakta, yang keandalannya tidak perlu diragukan "
-        DictPersona["ISFJ"] = "Sang Pembela Pelindung yang sangat berdedikasi dan berhati hangat, selalu siap membela orang yang dicintainya."
-        DictPersona["ESTJ"] = "Sang Eksekutif Administrator yang hebat, tak tertandingi dalam mengelola berbagai hal atau orang."
-        DictPersona["ESFJ"] = "Sang Konsul Pribadi yang sangat peduli, mudah bergaul, dan populer, selalu bersemangat untuk membantu. "
-
-        DictPersona["ISTP"] = "Sang Virtuoso Seorang praktisi yang berani dan kreatif, menguasai semua jenis alat."
-        DictPersona["ISFP"] = "Sang Petualang Seniman yang fleksibel dan menawan, selalu siap untuk menjelajahi dan mengalami hal baru."
-        DictPersona["ESTP"] = "Sang Pengusaha Orang yang cerdas, bersemangat, dan sangat tanggap, senang hidup di ujung tanduk."
-        DictPersona["ESFP"] = "Sang Penghibur Penghibur yang spontan dan antusias, tidak pernah ada momen yang membosankan di sekitarnya."
+        setupPersonalityDictionary()
 
         val progressContainer = findViewById<LinearLayout>(R.id.progressContainer)
         val questionText = findViewById<TextView>(R.id.questionText)
-        val btnnext = findViewById<ImageButton>(R.id.btnNext)
-        val Answer= findViewById<MaterialButton>(R.id.btnYes)
-        val Bnswer= findViewById<MaterialButton>(R.id.btnNo)
+        val btnPrev = findViewById<ImageButton>(R.id.btnPrev)
+        val btnNext = findViewById<ImageButton>(R.id.btnNext)
+        val answerAButton = findViewById<MaterialButton>(R.id.btnYes)
+        val answerBButton = findViewById<MaterialButton>(R.id.btnNo)
 
-        questionText.text = questions[currentIndex]
-        Answer.text = Aanswer[currentIndex]
-        Bnswer.text = Banswer[currentIndex]
+        fun updateUI() {
+            if (currentIndex in questions.indices) {
+                questionText.text = questions[currentIndex]
+                answerAButton.text = Aanswer[currentIndex]
+                answerBButton.text = Banswer[currentIndex]
+
+                for (i in 0 until progressContainer.childCount) {
+                    val iv = progressContainer.getChildAt(i) as ImageView
+                    iv.setImageResource(if (i == currentIndex) R.drawable.dot_selected else R.drawable.dot_unselected)
+                }
+            }
+        }
+
+        fun calculateAndFinish() {
+            val dimension1 = if (E >= I) "E" else "I"
+            val dimension2 = if (S >= N) "S" else "N"
+            val dimension3 = if (T >= F) "T" else "F"
+            val dimension4 = if (J >= P) "J" else "P"
+            val finalCode = "$dimension1$dimension2$dimension3$dimension4"
+            Log.d("AppDebug", "Final Personality Code: $finalCode")
 
 
-        progressContainer.removeAllViews()
+            ResultPersonality = DictPersona[finalCode] ?: "Tipe tidak ditemukan."
+            Log.d("AppDebug", "Matched Personality: $ResultPersonality")
+
+
+            val intent = Intent(this, ActivityEnd::class.java)
+            intent.putExtra("RESULT_PERSONALITY", ResultPersonality)
+            startActivity(intent)
+            finish()
+        }
+
+        fun handleAnswer() {
+
+            when (currentIndex) {
+                0, 4, 8, 12 -> if (BoolAns) E++ else I++
+                1, 5, 9, 13 -> if (BoolAns) S++ else N++
+                2, 6, 10    -> if (BoolAns) T++ else F++
+                3, 7, 11    -> if (BoolAns) J++ else P++
+            }
+            Log.d("AppDebug", "Answered Q#$currentIndex. Scores: E=$E, I=$I, S=$S, N=$N, T=$T, F=$F, J=$J, P=$P")
+
+
+
+            if (currentIndex < questions.size - 1) {
+                currentIndex++
+                updateUI()
+            } else {
+                calculateAndFinish()
+            }
+        }
+
+
+        answerAButton.setOnClickListener {
+            BoolAns = true
+            handleAnswer()
+        }
+
+
+        answerBButton.setOnClickListener {
+            BoolAns = false
+            handleAnswer()
+        }
+
+
+        btnPrev.setOnClickListener {
+            if (currentIndex > 0) {
+                currentIndex--
+                updateUI()
+            }
+        }
+
+        btnNext.setOnClickListener {
+            Toast.makeText(this, "Silakan pilih jawaban untuk melanjutkan", Toast.LENGTH_SHORT).show()
+        }
+
+
         for (i in questions.indices) {
             val dot = ImageView(this).apply {
-                val size = if (i == currentIndex) dpToPx(14) else dpToPx(12)
+                val size = dpToPx(12)
                 layoutParams = LinearLayout.LayoutParams(size, size).also {
                     (it as LinearLayout.LayoutParams).setMargins(dpToPx(6), 0, dpToPx(6), 0)
                 }
+
+
                 setImageResource(if (i == currentIndex) R.drawable.dot_selected else R.drawable.dot_unselected)
             }
             progressContainer.addView(dot)
         }
 
-        fun updateUI() {
 
-            questionText.text = questions[currentIndex]
-            Answer.text = Aanswer[currentIndex]
-            Bnswer.text = Banswer[currentIndex]
-            when(currentIndex)
-            {
-                1,5,9,13->
-                {
+        updateUI()
+    }
 
-                if(BoolAns == true)
-                {
-                    E +=1
-                }
-                else
-                {
-                    Itro += 1
-                }
-
-                }
-                2,6,10,14->
-                {
-                    if(BoolAns == true)
-                    {
-                        S +=1
-                    }
-                    else
-                    {
-                        It += 1
-                    }
-                }
-                3,7,11->
-                {
-                    if(BoolAns == true)
-                    {
-                        T +=1
-                    }
-                    else
-                    {
-                        F += 1
-                    }
-                }
-                4,8,12->
-                {
-                    if(BoolAns == true)
-                    {
-                        J +=1
-                    }
-                    else
-                    {
-                        P += 1
-                    }
-                }
-            }
-            for (i in 0 until progressContainer.childCount) {
-                val iv = progressContainer.getChildAt(i) as ImageView
-                iv.setImageResource(if (i == currentIndex) R.drawable.dot_selected else R.drawable.dot_unselected)
-            }
-        }
-
-        fun CalculateDomain() {
-            Dimention1 = if (E > Itro) "E" else "I"
-            Dimention2 = if (S > It) "S" else "N"
-            Dimention3 = if (T > F) "T" else "F"
-            Dimention4 = if (J > P) "J" else "P"
-
-            arrA[0] = Dimention1
-            arrA[1] = Dimention2
-            arrA[2] = Dimention3
-            arrA[3] = Dimention4
-        }
-
-        fun PersonalityResult() {
-            for ((key, value) in DictPersona) {
-                if (arrA.joinToString("") == key) {
-                    ResultPersonality = value
-                    Log.d("AppDebug", "Matched personality: $ResultPersonality")
-                    break
-                }
-            }
-
-
-            if (ResultPersonality.isEmpty()) {
-                Log.d("Error Result Cause of", "No match found for ${arrA.joinToString("")}")
-            }
-        }
-
-
-
-
-
-
-
-        Answer.setOnClickListener {
-            BoolAns = true
-        }
-        Bnswer.setOnClickListener {
-            BoolAns = false
-        }
-        findViewById<ImageButton>(R.id.btnPrev).setOnClickListener {
-            if (currentIndex > 0) {
-                currentIndex--
-                updateUI()
-            }
-
-        }
-        findViewById<ImageButton>(R.id.btnNext).setOnClickListener {
-            if (currentIndex < questions.size - 1) {
-                currentIndex++
-                updateUI()
-            } else {
-                CalculateDomain()
-                PersonalityResult()
-                val intent = Intent(this, ActivityEnd::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
-
-
-
-        findViewById<MaterialButton>(R.id.btnYes).setOnClickListener {
-            if (currentIndex < questions.size-1) {
-                currentIndex++
-                updateUI()
-            }
-        }
-
-        findViewById<MaterialButton>(R.id.btnNo).setOnClickListener {
-            if (currentIndex < questions.size-1) {
-                currentIndex++
-                updateUI()
-            }
-        }
-
+    private fun setupPersonalityDictionary() {
+        DictPersona["INTJ"] = "Sang Arsitek: Pemikir strategis yang imajinatif dan memiliki rencana untuk segala hal."
+        DictPersona["INTP"] = "Sang Ahli Logika: Penemu inovatif dengan kehausan yang tak terpuaskan akan pengetahuan."
+        DictPersona["ENTJ"] = "Sang Komandan: Pemimpin yang tegas dan berani, selalu menemukan atau menciptakan jalan."
+        DictPersona["ENTP"] = "Sang Pendebat: Pemikir yang cerdas dan penasaran, tidak bisa menolak tantangan intelektual."
+        DictPersona["INFJ"] = "Sang Advokat: Idealis yang pendiam, menginspirasi, dan tak kenal lelah."
+        DictPersona["INFP"] = "Sang Mediator: Pribadi puitis dan baik hati, selalu ingin membantu orang lain."
+        DictPersona["ENFJ"] = "Sang Protagonis: Pemimpin yang karismatik dan mampu menginspirasi pendengarnya."
+        DictPersona["ENFP"] = "Sang Juru Kampanye: Jiwa bebas yang antusias, kreatif, dan mudah bergaul."
+        DictPersona["ISTJ"] = "Sang Ahli Logistik: Individu yang praktis dan mengandalkan fakta, yang keandalannya tidak perlu diragukan."
+        DictPersona["ISFJ"] = "Sang Pembela: Pelindung yang sangat berdedikasi dan berhati hangat, selalu siap membela orang yang dicintainya."
+        DictPersona["ESTJ"] = "Sang Eksekutif: Administrator yang hebat, tak tertandingi dalam mengelola berbagai hal atau orang."
+        DictPersona["ESFJ"] = "Sang Konsul: Pribadi yang sangat peduli, mudah bergaul, dan populer, selalu bersemangat untuk membantu."
+        DictPersona["ISTP"] = "Sang Virtuoso: Seorang praktisi yang berani dan kreatif, menguasai semua jenis alat."
+        DictPersona["ISFP"] = "Sang Petualang: Seniman yang fleksibel dan menawan, selalu siap untuk menjelajahi dan mengalami hal baru."
+        DictPersona["ESTP"] = "Sang Pengusaha: Orang yang cerdas, bersemangat, dan sangat tanggap, senang hidup di ujung tanduk."
+        DictPersona["ESFP"] = "Sang Penghibur: Penghibur yang spontan dan antusias, tidak pernah ada momen yang membosankan di sekitarnya."
     }
 
     private fun dpToPx(dp: Int): Int {

@@ -10,6 +10,6 @@ class ActivityEnd : AppCompatActivity() {
         setContentView(R.layout.activity_entp)
 
         val resultText = findViewById<TextView>(R.id.textDescription)
-        resultText.text = QuestionnaireActivity.ResultPersonality
+        resultText.text = intent.getStringExtra("RESULT_PERSONALITY")
     }
 }
