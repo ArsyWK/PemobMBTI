@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2E2B3D">
+
+    <ImageView
+        android:id="@+id/imgBulb"
+        android:layout_width="450dp"
+        android:layout_height="450dp"
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/newlogo"
+        app:layout_constraintBottom_toTopOf="@id/btnPlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.068" />
+
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginBottom="68dp"
+        android:background="@drawable/circle"
+        android:contentDescription="@string/play"
+        android:scaleType="centerInside"
+        android:src="@drawable/triangle"
+        app:layout_constraintBottom_toTopOf="@id/txtCitation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtQuote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Knowing yourself is the beginning of all wisdom. — Aristotle"
+        android:textColor="#FFFFFF"
+        android:textSize="31px"
+        app:layout_constraintBottom_toTopOf="@id/btnPlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgBulb"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txtCitation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:fontFamily="@font/montserrat_light"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="The Myers–Briggs Type Indicator is a self-report questionnaire that makes pseudoscientific claims to categorize individuals into 16 distinct personality types based on psychology."
+        android:textColor="#9A93BA"
+        android:textSize="24px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

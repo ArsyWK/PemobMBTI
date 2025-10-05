@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2F2B3A"
+    android:padding="20dp">
+
+
+    <FrameLayout
+        android:id="@+id/progressPill"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/progress_pill"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/progressContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+        </HorizontalScrollView>
+    </FrameLayout>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/questionCard"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        app:cardCornerRadius="12dp"
+        app:cardUseCompatPadding="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"
+        android:strokeWidth="1"
+        app:layout_constraintTop_toBottomOf="@id/progressPill"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/answersContainer">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/questionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:padding="20dp"
+                android:text="This is question Box"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <LinearLayout
+        android:id="@+id/answersContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/questionCard"
+        app:layout_constraintBottom_toTopOf="@id/navButtons">
+
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnYes"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Iya"
+            android:backgroundTint="#9CF79C"
+            android:textColor="@android:color/black"
+            app:cornerRadius="24dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNo"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Tidak"
+            android:backgroundTint="#F79C9C"
+            android:textColor="@android:color/black"
+            app:cornerRadius="24dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/navButtons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp">
+
+
+        <ImageButton
+            android:id="@+id/btnPrev"
+            android:layout_width="80dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_triangle_left"
+            android:scaleType="centerInside"
+            android:background="@drawable/nav_button_bg"
+            android:contentDescription="Previous"
+            android:padding="12dp"
+            android:layout_marginStart="8dp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="3" />
+
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_triangle_right"
+            android:scaleType="centerInside"
+            android:background="@drawable/nav_button_bg"
+            android:contentDescription="Next"
+            android:padding="12dp"
+            android:layout_marginEnd="10dp"/>
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

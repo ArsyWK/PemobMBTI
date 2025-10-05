@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PersonaLab</string>
+    <string name="app_name_potensiku">PersonaLab</string>
+
+    <string name="app_logo">App Logo</string>
+    <string name="play">play</string>
+    <string name="bulb_text">personalitymu></string>
+
+
+    <string name="mypersona">mypersona®</string>
+    <string name="pahami">Pahami</string>
+    <string name="kepribadian">Kepribadianmu</string>
+    <string name="explore_your_uniqueness">explore your uniqueness</string>
+
+    <string name="mypassion">mypassion®</string>
+    <string name="title_home">Home</string>
+
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2F2B3A"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <ImageView
+        android:id="@+id/imageBulb"
+        android:layout_width="234dp"
+        android:layout_height="217dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="@string/bulb_text"
+        android:scaleX="2.2"
+        android:scaleY="2.2"
+        android:src="@drawable/newlogo" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="278dp"
+        android:layout_height="200dp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:text="ENTP adalah singkatan dari Extraverted, iNtuitive, Thinking, dan Perceiving. Mereka sering dijuluki sebagai &quot;Sang Penantang&quot; (The Challenger) atau &quot;Sang Pendebat&quot; (The Debater) karena kecintaan mereka pada adu argumen intelektual dan penjelajahan ide-ide baru."
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
+</LinearLayout>
